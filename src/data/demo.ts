@@ -102,6 +102,12 @@ export const ACADEMIC_YEARS = [2025, 2026, 2027];
 
 export const SUBJECTS = ['বাংলা', 'ইংরেজি', 'গণিত', 'বিজ্ঞান'];
 
+export const CLASS_NAMES = ['ষষ্ঠ', 'সপ্তম', 'অষ্টম', 'নবম', 'দশম'];
+
+export const SECTIONS = ['ক', 'খ', 'গ'];
+
+export const FOURTH_SUBJECTS = ['ধর্ম', 'কম্পিউটার', 'কৃষি শিক্ষা'];
+
 export const DEMO_PASSWORD = 'Demo@1234';
 
 export const SEED_INSTITUTIONS: Institution[] = [

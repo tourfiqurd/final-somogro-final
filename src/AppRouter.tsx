@@ -3,6 +3,7 @@ import App from '@/App';
 import { useAppData } from '@/context/AppDataContext';
 import DashboardPage from '@/pages/DashboardPage';
 import LoginPage from '@/pages/LoginPage';
+import RegisterPage from '@/pages/RegisterPage';
 
 export default function AppRouter() {
   const { currentUser } = useAppData();
@@ -15,6 +16,7 @@ export default function AppRouter() {
   }, []);
 
   if (hash === '#/login') return <LoginPage />;
+  if (hash === '#/register') return <RegisterPage />;
   if (hash === '#/dashboard') return currentUser ? <DashboardPage /> : <LoginPage />;
   return <App />;
 }

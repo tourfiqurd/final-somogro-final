@@ -1,12 +1,25 @@
-import { LogOut, Sparkles } from 'lucide-react';
+import { useState } from 'react';
 import { useAppData } from '@/context/AppDataContext';
-import { ROLE_LABELS } from '@/data/demo';
+import { NAVIGATION } from '@/data/navigation';
+import { Sidebar } from '@/components/dashboard/Sidebar';
+import { TopNavbar } from '@/components/dashboard/TopNavbar';
+import { renderSection } from '@/components/dashboard/SectionRouter';
 
 export default function DashboardPage() {
-  const { currentUser, institutions, logout } = useAppData();
+  const { currentUser, logout } = useAppData();
+  const [activeId, setActiveId] = useState('overview');
+  const [collapsed, setCollapsed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   if (!currentUser) return null;
 
-  const institution = institutions.find((item) => item.id === currentUser.institutionId);
+  const items = NAVIGATION[currentUser.role];
+  const activeItem = items.find((item) => item.id === activeId && !item.href) ?? items.find((item) => !item.href) ?? items[0];
+
+  const handleSelect = (id: string) => {
+    setActiveId(id);
+    setDrawerOpen(false);
+  };
 
   const handleLogout = () => {
     logout();
@@ -15,43 +28,39 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-stone-50">
-      <header className="flex h-16 items-center justify-between border-b border-stone-200 bg-white px-5">
-        <a href="#home" className="inline-flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white">
-            <Sparkles size={18} />
-          </span>
-          <strong className="text-lg text-stone-900">সমগ্র</strong>
-        </a>
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="inline-flex items-center gap-2 rounded-lg border border-stone-300 px-3.5 py-2 text-sm font-semibold text-stone-700 transition hover:border-orange-400 hover:text-orange-600"
-        >
-          <LogOut size={16} /> লগআউট
-        </button>
-      </header>
+      <TopNavbar onToggleDrawer={() => setDrawerOpen((open) => !open)} drawerOpen={drawerOpen} />
 
-      <main className="flex flex-1 items-center justify-center p-6">
-        <div className="w-full max-w-lg rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
-          <span className="inline-flex rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">
-            {ROLE_LABELS[currentUser.role]}
-          </span>
-          <h1 className="mt-4 text-2xl font-bold text-stone-900">স্বাগতম, {currentUser.name}</h1>
-          <dl className="mt-6 space-y-3 text-sm">
-            <div className="flex justify-between gap-4 border-b border-stone-100 pb-3">
-              <dt className="text-stone-500">ইমেইল</dt>
-              <dd className="font-mono text-stone-800">{currentUser.email}</dd>
-            </div>
-            <div className="flex justify-between gap-4 border-b border-stone-100 pb-3">
-              <dt className="text-stone-500">প্রতিষ্ঠান</dt>
-              <dd className="text-right text-stone-800">{institution ? institution.name : 'সমগ্র প্ল্যাটফর্ম'}</dd>
-            </div>
-          </dl>
-          <p className="mt-6 text-xs leading-relaxed text-stone-500">
-            ভূমিকা অনুযায়ী পূর্ণাঙ্গ ড্যাশবোর্ড (সাইডবার ও মেনু সহ) এর কাজ পরবর্তী ধাপে যুক্ত হবে।
-          </p>
-        </div>
-      </main>
+      <div className="flex min-h-0 flex-1">
+        <aside
+          className={`sticky top-16 hidden h-[calc(100vh-4rem)] shrink-0 border-r border-stone-200 transition-[width] duration-300 lg:block ${collapsed ? 'w-20' : 'w-72'}`}
+        >
+          <Sidebar
+            activeId={activeItem.id}
+            collapsed={collapsed}
+            onSelect={handleSelect}
+            onToggleCollapse={() => setCollapsed((value) => !value)}
+            onLogout={handleLogout}
+          />
+        </aside>
+
+        {drawerOpen && (
+          <div className="fixed inset-0 z-50 bg-stone-900/40 lg:hidden" onClick={() => setDrawerOpen(false)}>
+            <aside onClick={(event) => event.stopPropagation()} className="h-full w-72 max-w-[85%] bg-white shadow-2xl">
+              <Sidebar
+                activeId={activeItem.id}
+                collapsed={false}
+                onSelect={handleSelect}
+                onToggleCollapse={() => undefined}
+                onLogout={handleLogout}
+              />
+            </aside>
+          </div>
+        )}
+
+        <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
+          {renderSection(currentUser, activeItem.id)}
+        </main>
+      </div>
     </div>
   );
 }

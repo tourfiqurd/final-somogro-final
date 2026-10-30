@@ -9,6 +9,7 @@ import {
   SEED_USERS,
   type AppUser,
   type AuditLog,
+  type TeachingAssignment,
   type Institution,
   type InstitutionStatus,
   type InstitutionType,
@@ -66,6 +67,8 @@ interface AppDataValue {
   academicYear: number;
   academicYears: number[];
   setAcademicYear: (year: number) => void;
+  addAcademicYear: (year: number) => string | null;
+  deleteAcademicYear: (year: number) => string | null;
   login: (email: string, password: string) => string | null;
   logout: () => void;
   registerInstitution: (input: RegistrationInput) => string | null;
@@ -78,6 +81,7 @@ interface AppDataValue {
   addTeacher: (input: TeacherInput) => string | null;
   saveMarks: (subject: string, rows: MarkRow[], status: Exclude<MarkStatus, 'approved'>) => void;
   approveMarks: (className: string, section: string, subject: string) => void;
+  setTeaching: (userId: string, assignments: TeachingAssignment[]) => void;
 }
 
 const AppDataContext = createContext<AppDataValue | null>(null);
@@ -94,6 +98,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   const [notices, setNotices] = useState<Notice[]>(SEED_NOTICES);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>(SEED_AUDIT_LOGS);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [academicYears, setAcademicYears] = useState<number[]>(ACADEMIC_YEARS);
   const [academicYear, setAcademicYear] = useState<number>(2026);
 
   const currentUser = useMemo(() => users.find((user) => user.id === currentUserId) ?? null, [users, currentUserId]);
@@ -243,6 +248,28 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     if (currentUser) log(currentUser.name, `${className} (${section}) এর ${subject} নম্বর অনুমোদন করেছেন`);
   }, [students, currentUser, log]);
 
+  const addAcademicYear = useCallback((year: number) => {
+    if (academicYears.includes(year)) return 'এই শিক্ষাবর্ষ আগে থেকেই আছে।';
+    setAcademicYears((prev) => [...prev, year].sort((a, b) => a - b));
+    if (currentUser) log(currentUser.name, `${year} শিক্ষাবর্ষ যুক্ত করেছেন`);
+    return null;
+  }, [academicYears, currentUser, log]);
+
+  const deleteAcademicYear = useCallback((year: number) => {
+    if (students.some((item) => item.year === year)) return 'এই শিক্ষাবর্ষে শিক্ষার্থী আছে, তাই মুছে ফেলা যাবে না।';
+    const remaining = academicYears.filter((item) => item !== year);
+    setAcademicYears(remaining);
+    if (academicYear === year && remaining.length > 0) setAcademicYear(remaining[0]);
+    if (currentUser) log(currentUser.name, `${year} শিক্ষাবর্ষ মুছে ফেলেছেন`);
+    return null;
+  }, [academicYears, academicYear, students, currentUser, log]);
+
+  const setTeaching = useCallback((userId: string, assignments: TeachingAssignment[]) => {
+    const target = users.find((item) => item.id === userId);
+    setUsers((prev) => prev.map((item) => (item.id === userId ? { ...item, teaching: assignments } : item)));
+    if (currentUser && target) log(currentUser.name, `${target.name} শিক্ষকের বিষয় বণ্টন হালনাগাদ করেছেন`);
+  }, [users, currentUser, log]);
+
   const value: AppDataValue = {
     currentUser,
     users,
@@ -252,8 +279,10 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     notices,
     auditLogs,
     academicYear,
-    academicYears: ACADEMIC_YEARS,
+    academicYears,
     setAcademicYear,
+    addAcademicYear,
+    deleteAcademicYear,
     login,
     logout,
     registerInstitution,
@@ -266,6 +295,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     addTeacher,
     saveMarks,
     approveMarks,
+    setTeaching,
   };
 
   return <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>;
