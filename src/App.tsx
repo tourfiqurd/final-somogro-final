@@ -171,9 +171,9 @@ function App() {
           </a>
           <nav className={menuOpen ? 'main-nav open' : 'main-nav'}>
             {['হোম', 'ফিচারসমূহ', 'কীভাবে কাজ করে', 'ড্যাশবোর্ড', 'নোটিশ', 'যোগাযোগ'].map((item, index) => <a key={item} className={index === 0 ? 'active' : ''} href={['#home', '#features', '#how', '#dashboard', '#notice', '#contact'][index]} onClick={() => setMenuOpen(false)}>{item}</a>)}
-            <div className="nav-actions mobile-actions"><button className="button button-outline">লগইন</button><button className="button button-gradient">প্রতিষ্ঠান নিবন্ধন</button></div>
+            <div className="nav-actions mobile-actions"><a className="button button-outline" href="#/login">লগইন</a><button className="button button-gradient">প্রতিষ্ঠান নিবন্ধন</button></div>
           </nav>
-          <div className="nav-actions desktop-actions"><button className="button button-outline">লগইন</button><button className="button button-gradient">নিবন্ধন করুন</button></div>
+          <div className="nav-actions desktop-actions"><a className="button button-outline" href="#/login">লগইন</a><button className="button button-gradient">নিবন্ধন করুন</button></div>
           <button className="menu-button" aria-label="মেনু" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         </div>
       </header>
