@@ -3,37 +3,39 @@
 ## Product intent & audience
 
 - Bengali-language education management platform ("সমগ্র" / Samagra)
-- Users: super admins, educators, and students (roles displayed in Bengali: সুপার অ্যাডমিন)
-- Includes academic year selection (শিক্ষাবর্ষ ২০২৬)
-- Features login/registration flows, dashboard with sidebar navigation
-- Audience likely educational institutions in Bengali-speaking regions
+- Users: super admins, principals (অধ্যক্ষ), educators, students, parents
+- Roles displayed in Bengali (সুপার অ্যাডমিন, অধ্যক্ষ, etc.)
+- Academic year selection (শিক্ষাবর্ষ ২০২৬)
+- Institution: সিলেট মডেল উচ্চ বিদ্যালয়
+- Sample user: মোহাম্মদ রফিকুল ইসলাম (principal@samagra.demo)
+- Audience: educational institutions in Bengali-speaking regions
 
 ## Brand personality & voice
 
 - Bengali-first UI (labels, navigation, role names in Bengali)
-- Professional, administrative tone suited for education management
+- Professional, administrative tone for education management
 
 ## Visual design & UX direction
 
-- Left sidebar layout: profile/logout card at top (compact), collapse toggle, academic year selector, then nav menu
-- Sidebar should feel smooth and compact — user requested smaller profile card for better nav flow
-- Tailwind CSS for styling with React + JSX
-- Icons from lucide-react
-- Avoid full-page reloads — use React Router `Link` instead of `<a href>` for internal navigation
-- Responsive admin dashboard pattern
+- **Top navbar (all dashboards):** সমগ্র logo + role badge, institution name + EIIN, শিক্ষাবর্ষ academic year selector, ওয়েবসাইট হোমপেজ link, user profile (name, email) with logout button
+- **Sidebar:** Full-height top-to-bottom, navigation menu + collapse toggle only; profile/academic-year/homepage moved to navbar
+- Tailwind CSS + React JSX; icons from lucide-react
+- React Router `Link` for internal navigation (avoid full-page reloads)
+- Consistent navbar + sidebar layout across all 5 dashboards (admin, principal, teacher, student, parent)
 
 ## Decisions, constraints & rationale
 
-- Profile card moved to sidebar top (was elsewhere) to streamline navigation; kept smaller for compactness
-- Academic year selector preserved in sidebar per explicit user requirement
-- Login/register page navigation converted from `<a>` to React Router `Link` to prevent full-page reloads
-- Back-to-home links on login/register also converted to `Link`
-- Tech: Vite + React, `@/` path alias maps to `src/`
-- No additional UI packages beyond template defaults (Tailwind, lucide-react)
+- Navbar added to top of all dashboards to consolidate profile, institution, academic year, homepage link
+- Sidebar simplified to nav-only and made full-height per explicit user request
+- Applied uniformly to all dashboards for consistency
+- Profile card moved from sidebar to navbar; academic year selector and homepage link also relocated
+- Tech: Vite + React, `@/` path alias → `src/`
+- No UI packages beyond template defaults (Tailwind, lucide-react)
 
 ## Open questions & assumptions
 
-- Assumption: React Router is the routing library in use (confirmed by Link conversion)
+- Assumption: React Router confirmed via Link usage
 - Sidebar collapse behavior on mobile not yet specified
-- No explicit color/typography system documented yet — infer from existing components
+- Navbar responsive behavior on small screens not yet specified
+- No explicit color/typography system documented — infer from existing components
 - Bengali font stack and loading strategy not yet verified
