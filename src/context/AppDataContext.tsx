@@ -82,6 +82,7 @@ interface AppDataValue {
   saveMarks: (subject: string, rows: MarkRow[], status: Exclude<MarkStatus, 'approved'>) => void;
   approveMarks: (className: string, section: string, subject: string) => void;
   setTeaching: (userId: string, assignments: TeachingAssignment[]) => void;
+  updateInstitution: (institutionId: string, patch: Pick<Institution, 'name' | 'phone' | 'address' | 'principalName'>) => void;
 }
 
 const AppDataContext = createContext<AppDataValue | null>(null);
@@ -270,6 +271,11 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     if (currentUser && target) log(currentUser.name, `${target.name} শিক্ষকের বিষয় বণ্টন হালনাগাদ করেছেন`);
   }, [users, currentUser, log]);
 
+  const updateInstitution = useCallback((institutionId: string, patch: Pick<Institution, 'name' | 'phone' | 'address' | 'principalName'>) => {
+    setInstitutions((prev) => prev.map((item) => (item.id === institutionId ? { ...item, ...patch } : item)));
+    if (currentUser) log(currentUser.name, 'প্রতিষ্ঠানের তথ্য হালনাগাদ করেছেন');
+  }, [currentUser, log]);
+
   const value: AppDataValue = {
     currentUser,
     users,
@@ -296,6 +302,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     saveMarks,
     approveMarks,
     setTeaching,
+    updateInstitution,
   };
 
   return <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>;

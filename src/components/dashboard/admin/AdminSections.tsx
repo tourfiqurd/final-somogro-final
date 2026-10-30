@@ -200,8 +200,9 @@ export function UsersSection({ currentUser }: { currentUser: AppUser }) {
   );
 }
 
-export function AuditSection() {
-  const { auditLogs } = useAppData();
+export function AuditSection({ actorNames }: { actorNames?: string[] }) {
+  const { auditLogs: allLogs } = useAppData();
+  const auditLogs = actorNames ? allLogs.filter((item) => actorNames.includes(item.actor)) : allLogs;
   const [query, setQuery] = useState('');
   const [actor, setActor] = useState('all');
 
