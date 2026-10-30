@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ArrowDown,
   ArrowRight,
@@ -171,9 +172,9 @@ function App() {
           </a>
           <nav className={menuOpen ? 'main-nav open' : 'main-nav'}>
             {['হোম', 'ফিচারসমূহ', 'কীভাবে কাজ করে', 'ড্যাশবোর্ড', 'নোটিশ', 'যোগাযোগ'].map((item, index) => <a key={item} className={index === 0 ? 'active' : ''} href={['#home', '#features', '#how', '#dashboard', '#notice', '#contact'][index]} onClick={() => setMenuOpen(false)}>{item}</a>)}
-            <div className="nav-actions mobile-actions"><a className="button button-outline" href="/login">লগইন</a><a className="button button-gradient" href="/register">প্রতিষ্ঠান নিবন্ধন</a></div>
+            <div className="nav-actions mobile-actions"><Link className="button button-outline" to="/login">লগইন</Link><Link className="button button-gradient" to="/register">প্রতিষ্ঠান নিবন্ধন</Link></div>
           </nav>
-          <div className="nav-actions desktop-actions"><a className="button button-outline" href="/login">লগইন</a><a className="button button-gradient" href="/register">নিবন্ধন করুন</a></div>
+          <div className="nav-actions desktop-actions"><Link className="button button-outline" to="/login">লগইন</Link><Link className="button button-gradient" to="/register">নিবন্ধন করুন</Link></div>
           <button className="menu-button" aria-label="মেনু" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         </div>
       </header>
@@ -210,7 +211,7 @@ function App() {
 
         <section className="section faq-section" id="faq"><div className="container faq-grid"><div className="section-heading"><span className="eyebrow">সহায়তা</span><h2>সচরাচর <em>জিজ্ঞাসিত প্রশ্ন</em></h2><p>সমগ্র সম্পর্কে আপনার সাধারণ প্রশ্নগুলোর উত্তর এখানে পাবেন।</p></div><div className="faq-list">{faqs.map(([question, answer], index) => <div className={faqOpen === index ? 'faq-item open' : 'faq-item'} key={question}><button onClick={() => setFaqOpen(faqOpen === index ? -1 : index)}><span>{question}</span>{faqOpen === index ? <X size={19} /> : <span className="plus">+</span>}</button>{faqOpen === index && <p>{answer}</p>}</div>)}</div></div></section>
 
-        <section className="cta-section" id="contact"><div className="cta-orb one" /><div className="cta-orb two" /><div className="container cta-inner"><div><span className="eyebrow">আজই শুরু করুন</span><h2>আপনার প্রতিষ্ঠানকে <strong>ডিজিটাল করুন</strong></h2><p>সহজ, নির্ভুল ও স্বচ্ছ ফলাফল ব্যবস্থাপনার যাত্রা শুরু হোক সমগ্রের সঙ্গে।</p><div className="hero-actions"><a className="button button-dark" href="/register">বিনামূল্যে নিবন্ধন করুন <ArrowRight size={18} /></a><button className="button button-ghost">যোগাযোগ করুন</button></div></div><GraduationCap className="cta-icon" size={132} /></div></section>
+        <section className="cta-section" id="contact"><div className="cta-orb one" /><div className="cta-orb two" /><div className="container cta-inner"><div><span className="eyebrow">আজই শুরু করুন</span><h2>আপনার প্রতিষ্ঠানকে <strong>ডিজিটাল করুন</strong></h2><p>সহজ, নির্ভুল ও স্বচ্ছ ফলাফল ব্যবস্থাপনার যাত্রা শুরু হোক সমগ্রের সঙ্গে।</p><div className="hero-actions"><Link className="button button-dark" to="/register">বিনামূল্যে নিবন্ধন করুন <ArrowRight size={18} /></Link><button className="button button-ghost">যোগাযোগ করুন</button></div></div><GraduationCap className="cta-icon" size={132} /></div></section>
       </main>
 
       <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a className="brand" href="#home"><span className="brand-mark"><Sparkles size={19} /></span><span><strong>সমগ্র</strong><small>সব শিক্ষা, এক প্ল্যাটফর্মে</small></span></a><p>স্কুল, কলেজ ও মাদ্রাসার জন্য অল-ইন-ওয়ান ম্যানেজমেন্ট ও রেজাল্ট পোর্টাল।</p></div><div><h3>দ্রুত লিংক</h3><a href="#features">ফিচারসমূহ</a><a href="#how">কীভাবে কাজ করে</a><a href="#dashboard">ড্যাশবোর্ড</a><a href="#notice">নোটিশ বোর্ড</a></div><div><h3>সহায়তা</h3><a href="#faq">সাধারণ জিজ্ঞাসা</a><a href="#contact">ব্যবহার নির্দেশিকা</a><a href="#contact">মার্কশিট যাচাই</a><a href="#contact">প্রতিষ্ঠান নিবন্ধন</a></div><div><h3>যোগাযোগ</h3><p><Search size={16} /> সিলেট, বাংলাদেশ</p><p><Smartphone size={16} /> ০১XXX-XXXXXX</p><p><CircleHelp size={16} /> info@shomogro.com</p></div></div><div className="container footer-bottom"><span>© ২০২৬ সমগ্র। সর্বস্বত্ব সংরক্ষিত।</span><span>গোপনীয়তা নীতি&nbsp;&nbsp; | &nbsp;&nbsp;ব্যবহারের শর্তাবলি</span></div></footer>

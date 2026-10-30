@@ -31,15 +31,54 @@ export function Sidebar({ collapsed, onToggleCollapse, onNavigate }: SidebarProp
 
   return (
     <div className="flex h-full flex-col bg-white">
-      <div className={`flex items-center border-b border-stone-200 py-4 ${collapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
-        {!collapsed && (
-          <div className="min-w-0">
-            <span className="inline-flex rounded-full bg-orange-50 px-2.5 py-0.5 text-[11px] font-bold text-orange-700">
-              {ROLE_LABELS[currentUser.role]}
+      {/* Profile card at the top */}
+      <div className="border-b border-stone-200 p-3">
+        {collapsed ? (
+          <div className="flex flex-col items-center gap-2">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-red-500 text-white">
+              <UserRound size={16} />
             </span>
-            <p className="mt-1 truncate text-sm font-semibold text-stone-900">{institution?.name ?? 'সমগ্র প্ল্যাটফর্ম'}</p>
+            <button
+              type="button"
+              onClick={handleLogout}
+              title="লগআউট"
+              className="rounded-lg p-1.5 text-stone-500 transition hover:bg-rose-50 hover:text-rose-600"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
+        ) : (
+          <div className="rounded-lg bg-stone-50 p-2.5">
+            <div className="flex items-center gap-2.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-red-500 text-white">
+                <UserRound size={16} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-semibold text-stone-900">{currentUser.name}</p>
+                <p className="truncate text-[11px] text-stone-500">{currentUser.email}</p>
+              </div>
+            </div>
+            <div className="mt-2 flex items-center justify-between gap-2">
+              <span className="inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[10px] font-bold text-orange-700">
+                {ROLE_LABELS[currentUser.role]}
+              </span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="inline-flex items-center gap-1.5 rounded-md border border-stone-300 bg-white px-2 py-1 text-[11px] font-semibold text-stone-700 transition hover:border-rose-300 hover:text-rose-600"
+              >
+                <LogOut size={13} /> লগআউট
+              </button>
+            </div>
+            {institution && (
+              <p className="mt-1.5 truncate text-[10px] text-stone-400">{institution?.name ?? 'সমগ্র প্ল্যাটফর্ম'}</p>
+            )}
           </div>
         )}
+      </div>
+
+      {/* Collapse toggle */}
+      <div className={`flex items-center border-b border-stone-200 py-2 ${collapsed ? 'justify-center px-2' : 'justify-end px-4'}`}>
         <button
           type="button"
           onClick={onToggleCollapse}
@@ -50,6 +89,7 @@ export function Sidebar({ collapsed, onToggleCollapse, onNavigate }: SidebarProp
         </button>
       </div>
 
+      {/* Academic year selector */}
       {!collapsed && (
         <div className="border-b border-stone-200 px-4 py-3">
           <AcademicYearSelect />
@@ -78,36 +118,6 @@ export function Sidebar({ collapsed, onToggleCollapse, onNavigate }: SidebarProp
           );
         })}
       </nav>
-
-      <div className="border-t border-stone-200 p-3">
-        {collapsed ? (
-          <button type="button" onClick={handleLogout} title="লগআউট" className="grid w-full place-items-center rounded-lg p-2.5 text-stone-600 transition hover:bg-rose-50 hover:text-rose-600">
-            <LogOut size={18} />
-          </button>
-        ) : (
-          <div className="rounded-xl bg-stone-50 p-3">
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-red-500 text-white">
-                <UserRound size={18} />
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-stone-900">{currentUser.name}</p>
-                <p className="truncate text-xs text-stone-500">{currentUser.email}</p>
-              </div>
-            </div>
-            {institution && (
-              <p className="mt-2 text-xs text-stone-500">{INSTITUTION_TYPE_LABELS[institution.type]} · EIIN {institution.eiin}</p>
-            )}
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-semibold text-stone-700 transition hover:border-rose-300 hover:text-rose-600"
-            >
-              <LogOut size={16} /> লগআউট
-            </button>
-          </div>
-        )}
-      </div>
     </div>
   );
 }

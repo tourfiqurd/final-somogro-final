@@ -14,7 +14,7 @@ import {
   Users,
   type LucideIcon,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppData } from '@/context/AppDataContext';
 import { ROLE_LABELS, SEED_USERS, type AppUser, type Role } from '@/data/demo';
 
@@ -58,7 +58,7 @@ export default function LoginPage() {
         <img src="/images/Secure_Education_Dashboard_Network.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/90 via-orange-500/75 to-red-500/85" />
         <div className="relative flex h-full flex-col justify-between p-12 text-white">
-          <a href="/" className="inline-flex w-fit items-center gap-3">
+          <Link to="/" className="inline-flex w-fit items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/20 backdrop-blur">
               <Sparkles size={20} />
             </span>
@@ -66,7 +66,7 @@ export default function LoginPage() {
               <strong className="block text-2xl leading-none">সমগ্র</strong>
               <small className="text-xs opacity-80">সব শিক্ষা, এক প্ল্যাটফর্মে</small>
             </span>
-          </a>
+          </Link>
           <div className="max-w-md">
             <h2 className="mb-4 text-4xl font-bold leading-tight">আপনার প্রতিষ্ঠানের ফলাফল ব্যবস্থাপনা</h2>
             <p className="text-base leading-relaxed text-white/90">
@@ -79,9 +79,9 @@ export default function LoginPage() {
 
       <main className="flex min-h-screen items-center justify-center px-5 py-12 sm:px-10">
         <div className="w-full max-w-md">
-          <a href="/" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-stone-500 transition hover:text-orange-600">
+          <Link to="/" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-stone-500 transition hover:text-orange-600">
             <ArrowLeft size={16} /> ওয়েবসাইটে ফিরে যান
-          </a>
+          </Link>
 
           <span className="text-xs font-bold uppercase tracking-wider text-orange-600">লগইন</span>
           <h1 className="mt-2 text-3xl font-bold text-stone-900">স্বাগতম</h1>
