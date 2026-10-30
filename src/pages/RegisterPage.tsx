@@ -70,13 +70,13 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-stone-50">
       <header className="flex h-16 items-center justify-between border-b border-stone-200 bg-white px-5">
-        <a href="#home" className="inline-flex items-center gap-2.5">
+        <a href="/" className="inline-flex items-center gap-2.5">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white">
             <Sparkles size={18} />
           </span>
           <strong className="text-lg text-stone-900">সমগ্র</strong>
         </a>
-        <a href="#home" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-600 transition hover:text-orange-600">
+        <a href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-600 transition hover:text-orange-600">
           <ArrowLeft size={16} /> হোমপেজে ফিরুন
         </a>
       </header>
@@ -92,7 +92,7 @@ export default function RegisterPage() {
               <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-stone-500">
                 সুপার অ্যাডমিন আপনার প্রতিষ্ঠান যাচাই করে অনুমোদন দিলে আপনি উপরের ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করতে পারবেন।
               </p>
-              <a href="#/login" className="mt-6 inline-flex rounded-lg bg-gradient-to-r from-orange-500 to-red-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/20">
+              <a href="/login" className="mt-6 inline-flex rounded-lg bg-gradient-to-r from-orange-500 to-red-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/20">
                 লগইন পাতায় যান
               </a>
             </div>

@@ -14,6 +14,7 @@ import {
   Users,
   type LucideIcon,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAppData } from '@/context/AppDataContext';
 import { ROLE_LABELS, SEED_USERS, type AppUser, type Role } from '@/data/demo';
 
@@ -29,6 +30,7 @@ const DEMO_ACCOUNTS = SEED_USERS.filter((user) => user.id !== 'u-principal-pendi
 
 export default function LoginPage() {
   const { login } = useAppData();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +49,7 @@ export default function LoginPage() {
       setError(result);
       return;
     }
-    window.location.hash = '#/dashboard';
+    navigate('/dashboard');
   };
 
   return (
@@ -56,7 +58,7 @@ export default function LoginPage() {
         <img src="/images/Secure_Education_Dashboard_Network.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/90 via-orange-500/75 to-red-500/85" />
         <div className="relative flex h-full flex-col justify-between p-12 text-white">
-          <a href="#home" className="inline-flex w-fit items-center gap-3">
+          <a href="/" className="inline-flex w-fit items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/20 backdrop-blur">
               <Sparkles size={20} />
             </span>
@@ -77,7 +79,7 @@ export default function LoginPage() {
 
       <main className="flex min-h-screen items-center justify-center px-5 py-12 sm:px-10">
         <div className="w-full max-w-md">
-          <a href="#home" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-stone-500 transition hover:text-orange-600">
+          <a href="/" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-stone-500 transition hover:text-orange-600">
             <ArrowLeft size={16} /> ওয়েবসাইটে ফিরে যান
           </a>
 
